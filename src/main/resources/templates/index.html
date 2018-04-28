@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Imako CRM APP</title>
+</head>
+<body>
+    <form action="login" th:action="@{/login}" method="post">
+        <div th:if="${param.error}">
+            <span>Email ou mot de passe erroné</span>
+        </div>
+
+        <input type="email" name="username" placeholder="Email" />
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit">Se Connecter</button>
+    </form>
+</body>
+</html>
