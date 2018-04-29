@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class User {
     @Column(nullable = false, length = 150, unique = true)
     private String nom;
     @Column(nullable = false, length = 150, unique = true)
+    @Email
     private String email;
     @Column(nullable = false)
     private String password;

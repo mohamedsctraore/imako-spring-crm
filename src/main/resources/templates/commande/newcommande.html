@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire de création de commande</title>
+</head>
+<body>
+    <p>Welcome <span sec:authentication="principal.username">User</span></p>
+    <p><a th:href="@{/logout}">Deconnexion</a></p>
+
+    <div sec:authorize="hasRole('commercial')">
+        <h3>Apparaitra si l'utilisateur est un commercial</h3>
+        <p><a th:href="@{/admin/home}">Espace Administrateur</a></p>
+    </div>
+
+    <form th:action="@{/home/commande/newcommande}" th:object="${commande}" method="post">
+
+        <p th:if="${#fields.hasErrors('global')}"
+           th:errors="*{global}" th:class="text-red">
+            Données incorrectes
+        </p>
+
+        <div th:classappend="${#fields.hasErrors('noteCommande')} ? 'has-error'">
+            <label>Note commande</label>
+            <input type="text" th:field="*{noteCommande}" />
+            <p th:if="${#fields.hasErrors('noteCommande')}" th:errors="*{noteCommande}" th:class="text-red">
+                Nom invalide
+            </p>
+        </div>
+
+        <div>
+            <button type="submit">Valider</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package ci.imako.imakospringcrm.bootstrap;
 
+import ci.imako.imakospringcrm.domain.Categorie;
+import ci.imako.imakospringcrm.domain.Contact;
 import ci.imako.imakospringcrm.domain.Role;
 import ci.imako.imakospringcrm.domain.User;
 import ci.imako.imakospringcrm.repositories.CommandeRepository;
@@ -45,6 +47,7 @@ public class BootstrapCRM implements ApplicationListener<ContextRefreshedEvent> 
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         userRepository.saveAll(listUsers());
+        contactRepository.saveAll(listContacts());
 
         log.debug("Chargement des données de l'application");
     }
@@ -73,5 +76,26 @@ public class BootstrapCRM implements ApplicationListener<ContextRefreshedEvent> 
         users.add(commercial2);
 
         return users;
+    }
+
+    private List<Contact> listContacts() {
+        List<Contact> contacts = new ArrayList<>();
+
+        Contact contact1 = new Contact();
+        contact1.setNom("Frank Dusbosq");
+        contact1.setEmail("frank.dubosq@gmail.com");
+        contact1.setTelephone("08-75-35-94");
+        contact1.setCategorie(Categorie.SUSPECT);
+
+        Contact contact2 = new Contact();
+        contact2.setNom("Antoine Kombouare");
+        contact2.setEmail("antoine.kombouare@gmail.com");
+        contact2.setTelephone("08-35-75-94");
+        contact2.setCategorie(Categorie.PROSPECT);
+
+        contacts.add(contact1);
+        contacts.add(contact2);
+
+        return contacts;
     }
 }

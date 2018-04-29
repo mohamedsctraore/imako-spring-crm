@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8" />
+    <title>Creer Nouveau Contact</title>
+</head>
+<body>
+
+    <p>Welcome <span sec:authentication="principal.username">User</span></p>
+    <p><a th:href="@{/logout}">Deconnexion</a></p>
+
+    <div sec:authorize="hasRole('commercial')">
+        <h3>Apparaitra si l'utilisateur est un commercial</h3>
+        <p><a th:href="@{/admin/home}">Espace Administrateur</a></p>
+    </div>
+
+    <div>
+        <h3>Creation nouveau contact</h3>
+
+        <form th:action="@{/home/newcontact}" th:object="${contact}" method="post">
+
+            <p th:if="${#fields.hasErrors('global')}"
+               th:errors="*{global}" th:class="text-red">
+                Données incorrectes
+            </p>
+
+            <div th:classappend="${#fields.hasErrors('nom')} ? 'has-error'">
+                <label>Nom</label>
+                <input type="text" th:field="*{nom}" />
+                <p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" th:class="text-red">
+                    Nom invalide
+                </p>
+            </div>
+
+            <div th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+                <label>Email</label>
+                <input type="email" th:field="*{email}" />
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:class="text-red">
+                    Email invalide
+                </p>
+            </div>
+
+            <div th:classappend="${#fields.hasErrors('telephone')} ? 'has-error'">
+                <label>Telephone</label>
+                <input type="text" th:field="*{telephone}" />
+                <p th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" th:class="text-red">
+                    Telephone invalide
+                </p>
+            </div>
+            
+            <div>
+                <label>Categorie</label>
+                <select th:field="*{categorie}">
+                    <option th:each="cat : ${T(ci.imako.imakospringcrm.domain.Categorie).values()}"
+                            th:value="${cat.name()}"
+                            th:text="${cat.name()}">
+                        Value
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <button type="submit">Valider</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

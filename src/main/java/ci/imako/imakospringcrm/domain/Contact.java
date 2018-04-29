@@ -1,11 +1,9 @@
 package ci.imako.imakospringcrm.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 /**
@@ -16,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Contact {
 
     @Id
@@ -24,6 +23,7 @@ public class Contact {
     @Column(nullable = false, length = 150)
     private String nom;
     @Column(nullable = false, length = 150, unique = true)
+    @Email
     private String email;
     @Column(nullable = false, length = 25, unique = true)
     private String telephone;
