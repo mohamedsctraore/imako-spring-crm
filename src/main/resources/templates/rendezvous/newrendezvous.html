@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Formulaire de rendez vous</title>
 </head>
 <body>
+    <p>Welcome <span sec:authentication="principal.username">User</span></p>
+    <p><a th:href="@{/logout}">Deconnexion</a></p>
 
+    <div sec:authorize="hasRole('commercial')">
+        <h3>Apparaitra si l'utilisateur est un commercial</h3>
+        <p><a th:href="@{/admin/home}">Espace Administrateur</a></p>
+    </div>
+
+    <div>
+        <h3>Creation nouveau rendez vous</h3>
+
+        <form th:action="@{'/home/newrendezvous/' + ${id_contact}}" th:object="${rendezvous}" method="post">
+
+            <div>
+                <input type="hidden" th:value="${id_contact}" />
+            </div>
+
+            <p th:if="${#fields.hasErrors('global')}"
+               th:errors="*{global}" th:class="text-red">
+                Données incorrectes
+            </p>
+
+            <div th:classappend="${#fields.hasErrors('dateRendezVous')} ? 'has-error'">
+                <label>Date Rendez Vous</label>
+                <input type="text" th:field="*{dateRendezVous}" />
+                <p th:if="${#fields.hasErrors('dateRendezVous')}" th:errors="*{dateRendezVous}" th:class="text-red">
+                    Nom invalide
+                </p>
+            </div>
+
+            <div th:classappend="${#fields.hasErrors('noteRendezVous')} ? 'has-error'">
+                <label>Note Rendez Vous</label>
+                <input type="text" th:field="*{noteRendezVous}" />
+                <p th:if="${#fields.hasErrors('noteRendezVous')}" th:errors="*{noteRendezVous}" th:class="text-red">
+                    Telephone invalide
+                </p>
+            </div>
+
+            <div>
+                <button type="submit">Valider</button>
+            </div>
 </body>
 </html>

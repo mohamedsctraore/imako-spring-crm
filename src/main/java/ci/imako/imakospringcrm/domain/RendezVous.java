@@ -21,9 +21,8 @@ public class RendezVous {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date dateRendezVous;
+    private String dateRendezVous;
 
     @Lob
     @Column(nullable = false)

@@ -22,7 +22,7 @@ public class Contact {
     private Long id;
     @Column(nullable = false, length = 150)
     private String nom;
-    @Column(nullable = false, length = 150, unique = true)
+    @Column(nullable = false, length = 150)
     @Email
     private String email;
     @Column(nullable = false, length = 25, unique = true)

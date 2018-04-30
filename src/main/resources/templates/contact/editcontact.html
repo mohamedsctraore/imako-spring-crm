@@ -19,7 +19,7 @@
 <div>
     <h3>Modifier contact</h3>
 
-    <form th:action="@{/home/editcontact}" th:object="${editcontact}" method="post">
+    <form th:action="@{/home/editcontact}" th:object="${contact}" method="post">
 
         <p th:if="${#fields.hasErrors('global')}"
            th:errors="*{global}" th:class="text-red">

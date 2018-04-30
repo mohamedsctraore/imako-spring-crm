@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/home")
@@ -50,7 +51,7 @@ public class ContactController {
     }
 
     @PostMapping("/newcontact")
-    public String creerContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult result) {
+    public String creerOuUpdateContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult result) {
         contactValidator.validate(contact, result);
         if (result.hasErrors()) {
             return "contact/newcontact";
@@ -74,23 +75,31 @@ public class ContactController {
 
     @GetMapping("/contact/edit/{id}")
     public String modifierContact(@PathVariable Long id, Model model) {
-        model.addAttribute("editcontact", contactRepository.findById(id));
+        model.addAttribute("contact", contactRepository.findById(id));
         return "/contact/editcontact";
     }
 
     @PostMapping("/editcontact")
     @Transactional
-    public String modifierContact(@Valid @ModelAttribute("editcontact") Contact contact, BindingResult result) {
+    public String modifierContact(@Valid @ModelAttribute("contact") Contact contact,
+                                  BindingResult result) {
         if (result.hasErrors()) {
             return "contact/editcontact";
         }
 
-        contactRepository.update(contact.getId(), contact.getEmail(), contact.getNom(), contact.getTelephone());
-        //contactRepository.save(contact);
-
         log.debug(contact.getNom());
         log.debug(contact.getEmail());
         log.debug(contact.getTelephone());
+
+        Contact updatedContact = new Contact();
+        updatedContact.setId(contact.getId());
+        updatedContact.setNom(contact.getNom());
+        updatedContact.setEmail(contact.getEmail());
+        updatedContact.setTelephone(contact.getTelephone());
+
+        //contactRepository.update(contact.getId(), contact.getEmail(), contact.getNom(), contact.getTelephone());
+        contactRepository.save(updatedContact);
+
         log.debug("Modification du contact reussi");
 
         return "redirect:/home";

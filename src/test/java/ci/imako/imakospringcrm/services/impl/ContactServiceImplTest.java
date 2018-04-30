@@ -41,26 +41,31 @@ public class ContactServiceImplTest {
         contact.setTelephone("telephone1");
         contact.setCategorie(Categorie.SUSPECT);
 
-        List<RendezVous> rendezVousList = new ArrayList<>();
+        List<RendezVous> rendezVousList = new ArrayList<>(0);
+        /*
         RendezVous rendezVous = new RendezVous();
         rendezVous.setId(2L);
-        rendezVous.setDateRendezVous(new Date());
+        rendezVous.setDateRendezVous("27/04/2018");
         rendezVous.setNoteRendezVous("monrendezvous");
         rendezVous.setContact(contact);
 
         rendezVousList.add(rendezVous);
+        */
 
-        List<Commande> commandeList = new ArrayList<>();
+
+        List<Commande> commandeList = new ArrayList<>(0);
+        /*
         Commande commande = new Commande();
         commande.setId(3L);
         commande.setNoteCommande("macommande");
         commande.setContact(contact);
+        */
 
         // when
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 5; i++) {
             Commande c = new Commande();
             commandeList.add(c);
-        }
+        }*/
 
         contact.setRendezVousList(rendezVousList);
         contact.setCommandes(commandeList);
@@ -69,7 +74,7 @@ public class ContactServiceImplTest {
 
         // then
 
-        Assert.assertEquals(Categorie.VIP.name(), status);
+        Assert.assertEquals(Categorie.SUSPECT.name(), status);
 
     }
 

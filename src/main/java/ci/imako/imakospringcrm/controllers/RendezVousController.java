@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/rendezvous")
+@RequestMapping("/home")
 @Slf4j
 public class RendezVousController {
 
@@ -33,29 +33,24 @@ public class RendezVousController {
         this.contactService = contactService;
     }
 
-    @GetMapping("/newrendezvous")
-    public String creerRendezvous(Model model) {
+    @GetMapping("/newrendezvous/{id}")
+    public String creerRendezvous(Model model, @PathVariable String id) {
         model.addAttribute("rendezvous", new RendezVous());
+        model.addAttribute("id_contact", id);
+        log.debug(id);
         return "rendezvous/newrendezvous";
     }
 
     @PostMapping("/newrendezvous/{id}")
     public String creerRendezVous(@Valid @ModelAttribute("rendezvous") RendezVous rendezVous,
                                   @PathVariable Long id) {
+        log.debug("ID recherché : " + id.toString());
         Optional<Contact> contact = contactRepository.findById(id);
-        String status = contactService.changeStatusContact(contact.get());
 
-        log.debug(status);
-
-        if (status.equals(Categorie.SUSPECT.toString())) {
-            contact.get().setCategorie(Categorie.SUSPECT);
-        } else if (status.equals(Categorie.PROSPECT.toString())) {
-            contact.get().setCategorie(Categorie.PROSPECT);
-        } else if (status.equals(Categorie.CLIENT.toString())) {
-            contact.get().setCategorie(Categorie.CLIENT);
-        } else {
-            contact.get().setCategorie(Categorie.VIP);
-        }
+        log.debug("ID du contact recupéré : " + contact.get().getId().toString());
+        log.debug("NOM du contact recupéré : " + contact.get().getNom());
+        log.debug("EMAIL du contact recupéré : " + contact.get().getEmail());
+        log.debug("CATEGORIE du contact recupéré : " + contact.get().getCategorie().toString());
 
         rendezVous.setContact(contact.get());
 
@@ -67,6 +62,24 @@ public class RendezVousController {
         rendezVousRepository.save(rendezVous);
 
         log.debug("Enregistrement effectué");
+
+        String status = contactService.changeStatusContact(contact.get());
+
+        log.debug(status);
+
+        if (status.equals(Categorie.SUSPECT.name())) {
+            contact.get().setCategorie(Categorie.SUSPECT);
+        } else if (status.equals(Categorie.PROSPECT.name())) {
+            contact.get().setCategorie(Categorie.PROSPECT);
+        } else if (status.equals(Categorie.CLIENT.name())) {
+            contact.get().setCategorie(Categorie.CLIENT);
+        } else if (status.equals(Categorie.VIP.name())) {
+            contact.get().setCategorie(Categorie.VIP);
+        }
+
+        log.debug(contact.get().getCategorie().name());
+
+        contactRepository.save(contact.get());
 
         return "redirect:/home";
     }

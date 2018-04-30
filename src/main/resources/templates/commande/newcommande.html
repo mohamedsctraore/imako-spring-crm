@@ -15,7 +15,11 @@
         <p><a th:href="@{/admin/home}">Espace Administrateur</a></p>
     </div>
 
-    <form th:action="@{/home/commande/newcommande}" th:object="${commande}" method="post">
+    <form th:action="@{'/home/newcommande/' + ${id_contact}}" th:object="${commande}" method="post">
+
+        <div>
+            <input type="hidden" th:value="${id_contact}" />
+        </div>
 
         <p th:if="${#fields.hasErrors('global')}"
            th:errors="*{global}" th:class="text-red">
