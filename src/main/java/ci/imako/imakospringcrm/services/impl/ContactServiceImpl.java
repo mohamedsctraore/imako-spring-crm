@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -38,13 +37,25 @@ public class ContactServiceImpl implements IContactService {
             status = Categorie.PROSPECT.toString();
         } else if (tailleRdvList != 0 && tailleCommandeList > 0) {
             status = Categorie.CLIENT.toString();
-            if (tailleCommandeList > 10) {
+            if (tailleCommandeList >= 10) {
                 status = Categorie.VIP.toString();
             }
         }
 
         return status;
 
+    }
+
+    @Override
+    public Map<String, Object> reports(Long id) {
+        Map<String, Object> resultat = new HashMap<>();
+        Contact contact = contactRepository.findById(id).get();
+        resultat.put("ID", contact.getId());
+        resultat.put("NOM", contact.getNom());
+        resultat.put("EMAIL", contact.getEmail());
+        resultat.put("TELEPHONE", contact.getTelephone());
+        resultat.put("CATEGORIE", contact.getCategorie().toString());
+        return resultat;
     }
 
     @Override

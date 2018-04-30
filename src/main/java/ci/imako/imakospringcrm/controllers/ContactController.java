@@ -2,6 +2,7 @@ package ci.imako.imakospringcrm.controllers;
 
 import ci.imako.imakospringcrm.domain.Contact;
 import ci.imako.imakospringcrm.repositories.ContactRepository;
+import ci.imako.imakospringcrm.services.IContactService;
 import ci.imako.imakospringcrm.validators.ContactValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,15 +16,19 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/home")
 @Slf4j
+@Transactional
 public class ContactController {
 
     private ContactRepository contactRepository;
     private ContactValidator contactValidator;
+    private IContactService contactService;
 
-    public ContactController(ContactRepository contactRepository,
+    public ContactController(IContactService contactService,
+                             ContactRepository contactRepository,
                              ContactValidator validator) {
         this.contactRepository = contactRepository;
         this.contactValidator = validator;
+        this.contactService = contactService;
     }
 
     @GetMapping("/listContact")
@@ -96,5 +101,10 @@ public class ContactController {
         contactRepository.deleteById(id);
         log.debug("Contact supprimé");
         return "redirect:/home";
+    }
+
+    @GetMapping("/contact/newpdf/{id}")
+    public String genererReport(@PathVariable Long id) {
+        return "";
     }
 }

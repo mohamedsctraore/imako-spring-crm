@@ -18,19 +18,27 @@
 <div>
     <table>
         <tr>
+            <td>ID</td>
+            <td>NOM</td>
+            <td>PRENOM</td>
+            <td>TELEPHONE</td>
+            <td>CATEGORIE</td>
+        </tr>
+        <tr>
             <td th:text="${contact.id}">ID</td>
             <td th:text="${contact.nom}">NOM</td>
             <td th:text="${contact.email}">PRENOM</td>
             <td th:text="${contact.telephone}">TELEPHONE</td>
             <td th:text="${contact.categorie}">CATEGORIE</td>
-            <td><a th:href="@{'/home/newrdv/' + ${contact.id}">Prendez un rendez vous</a></td>
-            <td><a th:href="@{'/home/newcommande/' + ${contact.id}">Prendre une commande</a></td>
-        </tr>
-        <tr>
-            <a th:href="@{'/home/commande/listcommande' + ${contact.id}">Voir la liste des commandes</a>
-            <a th:href="@{'/home/rendezvous/listrendezvous' + ${contact.id}">Voir la liste des rendez-vous</a>
         </tr>
     </table>
+    <div>
+        <a th:href="@{'/home/newrendezvous/' + ${contact.id}}">Prendez un rendez vous</a>
+        <a th:href="@{'/home/newcommande/' + ${contact.id}}">Prendre une commande</a>
+        <a th:href="@{'/home/contact/newpdf/' + ${contact.id}}">Exporter sous forme de PDF</a>
+        <a th:href="@{'/home/commande/listcommande/' + ${contact.id}}">Voir la liste des commandes</a>
+        <a th:href="@{'/home/rendezvous/listrendezvous/' + ${contact.id}}">Voir la liste des rendez-vous</a>
+    </div>
 </div>
 </body>
 </html>
